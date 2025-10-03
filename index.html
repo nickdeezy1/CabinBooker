@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cabin Booker</title>
+<!-- FullCalendar v6 CDN -->
+<link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.15/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.15/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/icalendar@6.1.15/index.global.min.js"></script>
+<style>
+:root { --bg:#f6f8fa; --card:#fff; --ink:#111; --muted:#555; --brand:#0f766e; }
+body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--ink); }
+.wrap { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+h1 { font-size: 1.4rem; margin: 0 0 12px; }
+.card { background:var(--card); border:1px solid #e5e7eb; border-radius: 12px; padding:16px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+.grid { display:grid; gap:16px; grid-template-columns: 1fr; }
+@media (min-width: 920px){ .grid { grid-template-columns: 1fr 320px; } }
+label { font-size: .9rem; color: var(--muted); display:block; margin-bottom:6px; }
+input[type="text"], input[type="date"] { width:100%; padding:10px 12px; font-size:1rem; border:1px solid #e2e8f0; border-radius:10px; }
+button { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; font-weight:600; border-radius:10px; background:var(--brand); color:#fff; border:0; cursor:pointer; }
+button:disabled { opacity:.6; cursor:not-allowed; }
+#msg { margin-top: 10px; font-size: .95rem; }
+#calendar { background:#fff; border-radius: 12px; padding: 8px; border:1px solid #e5e7eb; }
+.help { font-size:.88rem; color:var(--muted); margin-top:8px; }
+.muted { color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>🏡 Cabin Booker</h1>
+<div class="grid">
+<div class="card">
+<div id="calendar"></div>
+<p class="help">Tip: Click a start date, then drag to select the end date. The form will auto-fill.</p>
+</div>
+<div class="card">
+<form id="bookingForm">
+<div>
+<label for="name">Your name</label>
+<input id="name" name="name" type="text" placeholder="e.g., Nick" required />
+</div>
+<div style="margin-top:10px">
+<label for="start">Start date</label>
+<input id="start" name="start" type="date" required />
+</div>
+<div style="margin-top:10px">
+<label for="end">End date (last night)</label>
+<input id="end" name="end" type="date" required />
+<div class="help">End date is the last night you’re staying; checkout is the following morning.</div>
+</div>
+<div style="margin-top:14px">
+<button id="bookBtn" type="submit">Book dates</button>
+<div id="msg" class="muted"></div>
+</div>
+</form>
+</div>
+</div>
+<p class="muted" style="margin-top:12px">Bookings will appear on the calendar within a few seconds after successful submission.</p>
+</div>
+
+
+<script>
+// === CONFIG: Paste your values ===
+const ICS_URL = "https://calendar.google.com/calendar/ical/manitowishcabin%40doneleer.com/public/basic.ics"; // e.g., https://calendar.google.com/calendar/ical/.../public/basic.ics
+const APPS_SCRIPT_URL = "https://script.google.com/a/macros/doneleer.com/s/AKfycbyWOypUyR2TWCVd0lDIlZYRarvhGYEn6PP-y0061jKaHtWLd8OaFI1zlgkqb6OoFXbp7w/exec";
+
+
+// === Calendar setup ===
+const calendarEl = document.getElementById('calendar');
+const startInput = document.getElementById('start');
+const endInput = document.getElementById('end');
+
+
+const calendar = new FullCalendar.Calendar(calendarEl, {
+plugins: [ FullCalendar.DayGrid, FullCalendar.Interaction, FullCalendar.ICalendar ],
+initialView: 'dayGridMonth',
+selectable: true,
+timeZone: 'local',
+headerToolbar: { left: 'prev,next today', center: 'title', right: '' },
+</html>
